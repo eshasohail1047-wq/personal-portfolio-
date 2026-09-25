@@ -6,7 +6,6 @@ import { usePathname } from "next/navigation";
 export const NAV_LINKS = [
   { label: "Home", href: "/#top", id: "top" },
   { label: "About", href: "/#about", id: "about" },
-  { label: "How I Build", href: "/#how-i-build", id: "how-i-build" },
   { label: "Services", href: "/#services", id: "services" },
   { label: "Projects", href: "/#projects", id: "projects" },
   { label: "FAQ", href: "/#faq", id: "faq" },
@@ -28,6 +27,32 @@ export default function FloatingNav({
 }: FloatingNavProps) {
   const pathname = usePathname();
   const [active, setActive] = useState("top");
+  /** Fixed only on hero — hide once the hero scrolls away. */
+  const [onHero, setOnHero] = useState(true);
+
+  useEffect(() => {
+    if (pathname !== "/") {
+      setOnHero(false);
+      return;
+    }
+
+    const hero = document.getElementById("top");
+    if (!hero) return;
+
+    const sync = () => {
+      const visible = hero.getBoundingClientRect().bottom > 72;
+      setOnHero(visible);
+      if (!visible) onMenuClose();
+    };
+
+    sync();
+    window.addEventListener("scroll", sync, { passive: true });
+    window.addEventListener("resize", sync);
+    return () => {
+      window.removeEventListener("scroll", sync);
+      window.removeEventListener("resize", sync);
+    };
+  }, [pathname, onMenuClose]);
 
   useEffect(() => {
     if (pathname !== "/") return;
@@ -57,7 +82,10 @@ export default function FloatingNav({
 
   return (
     <>
-      <header className="framora-nav">
+      <header
+        className={`framora-nav framora-nav--static${onHero ? "" : " is-hero-left"}`}
+        aria-hidden={!onHero}
+      >
         <div className="framora-nav-inner">
           <a href="/#top" className="framora-logo" onClick={onMenuClose}>
             <span className="framora-logo-mark" aria-hidden="true">
@@ -101,6 +129,7 @@ export default function FloatingNav({
                 key={link.href}
                 href={link.href}
                 className={`framora-link${active === link.id ? " is-active" : ""}`}
+                tabIndex={onHero ? 0 : -1}
               >
                 {link.label}
               </a>
@@ -113,6 +142,7 @@ export default function FloatingNav({
               target="_blank"
               rel="noreferrer"
               className="framora-cta"
+              tabIndex={onHero ? 0 : -1}
             >
               Let&apos;s Collaborate
               <span aria-hidden="true">↗</span>
@@ -124,6 +154,7 @@ export default function FloatingNav({
               aria-controls="mobile-menu"
               aria-label={menuOpen ? "Close menu" : "Open menu"}
               onClick={onMenuToggle}
+              tabIndex={onHero ? 0 : -1}
             >
               <span className="framora-menu-bars" aria-hidden="true">
                 <span />
@@ -139,6 +170,7 @@ export default function FloatingNav({
         id="mobile-menu"
         className={`mobile-nav${menuOpen ? " is-open" : ""}`}
         onClick={onMenuClose}
+        hidden={!onHero && !menuOpen}
       >
         <div
           className="mobile-nav-panel"

@@ -1,84 +1,92 @@
 "use client";
 
-import { useEffect, useRef, type CSSProperties } from "react";
+import type { CSSProperties } from "react";
 
 export type ServiceCard = {
   title: string;
   body: string;
+  tag?: string;
+  techs?: readonly string[];
 };
 
 type Props = {
   services: readonly ServiceCard[];
 };
 
+const ICONS = [
+  "/services/fullstack.png",
+  "/services/frontend.png",
+  "/services/backend.png",
+  "/services/interactive.png",
+] as const;
+
 /**
- * Sticky stack — each card slides up over the previous one while scrolling
- * (Instagram reel / achievements-style pile).
+ * Marketing Lab "Our Process": each row is a sticky 4-column grid.
+ * Only one column holds a card, so scrolling locks cards into a row
+ * left to right. Card faces follow the What I Do reference.
  */
 export default function ServicesStack({ services }: Props) {
-  const rootRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const root = rootRef.current;
-    if (!root) return;
-    const cards = [...root.querySelectorAll<HTMLElement>(".svc-stack-card")];
-    if (!cards.length) return;
-
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduced) return;
-
-    const onScroll = () => {
-      const pinBase = 110;
-      cards.forEach((card, i) => {
-        const pin = pinBase + i * 14;
-        const next = cards[i + 1];
-        if (!next) {
-          card.style.setProperty("--stack-scale", "1");
-          card.style.setProperty("--stack-dim", "0");
-          return;
-        }
-        const nr = next.getBoundingClientRect();
-        const cover = Math.min(1, Math.max(0, (pin + 100 - nr.top) / 180));
-        card.style.setProperty("--stack-scale", String(1 - cover * 0.085));
-        card.style.setProperty("--stack-dim", String(cover * 0.4));
-      });
-    };
-
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll);
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
-    };
-  }, [services]);
-
   return (
-    <div ref={rootRef} className="svc-stack">
+    <div className="svc-process" style={{ ["--svc-n" as string]: services.length }}>
       {services.map((service, index) => {
         const num = String(index + 1).padStart(2, "0");
+        const icon = ICONS[index] ?? ICONS[0];
         return (
-          <article
+          <div
             key={service.title}
-            className="svc-stack-card"
+            className="svc-process-row"
             style={
               {
-                ["--stack-i"]: index,
-                ["--stack-z"]: index + 1,
-                ["--stack-top"]: `${110 + index * 14}px`,
+                ["--svc-i"]: index,
+                zIndex: index + 1,
               } as CSSProperties
             }
           >
-            <div className="svc-stack-inner">
-              <div className="svc-stack-top">
-                <span className="svc-stack-num">{num}</span>
-                <span className="svc-stack-tag">Service</span>
-              </div>
-              <h3 className="svc-stack-title">{service.title}</h3>
-              <p className="svc-stack-body">{service.body}</p>
-              <div className="svc-stack-bar" aria-hidden="true" />
+            <div className="svc-process-grid">
+              {services.map((slot, col) =>
+                col === index ? (
+                  <article key={slot.title} className="svc-do-face">
+                    <div className="svc-do-card-top">
+                      <span className="svc-do-num">{num}</span>
+                      <span className="svc-do-tag">{service.tag ?? "Service"}</span>
+                    </div>
+
+                    <div className="svc-do-icon">
+                      <span className="svc-do-orbit" aria-hidden="true" />
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={icon}
+                        alt=""
+                        className="svc-do-icon-img"
+                        width={220}
+                        height={220}
+                        decoding="async"
+                      />
+                    </div>
+
+                    <h3 className="svc-do-card-title">{service.title}</h3>
+                    <span className="svc-do-rule" aria-hidden="true" />
+                    <p className="svc-do-card-body">{service.body}</p>
+
+                    <div className="svc-do-card-foot">
+                      <p className="svc-do-techs">
+                        {(service.techs ?? []).join(" · ")}
+                      </p>
+                      <a
+                        href="#contact"
+                        className="svc-do-go"
+                        aria-label={`Start a ${service.title} project`}
+                      >
+                        →
+                      </a>
+                    </div>
+                  </article>
+                ) : (
+                  <div key={slot.title} className="svc-process-ghost" aria-hidden="true" />
+                ),
+              )}
             </div>
-          </article>
+          </div>
         );
       })}
     </div>

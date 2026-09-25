@@ -43,8 +43,9 @@ function PlaneIcon() {
 }
 
 /**
- * Autoplay How I Build flight: plane flies the path on a loop;
+ * About = process flight: plane flies the path on a loop;
  * cards light purple/orange when the plane reaches them.
+ * Short bio sits in free space (not over cards).
  */
 export default function ProcessStack({ steps }: Props) {
   const stageRef = useRef<HTMLDivElement>(null);
@@ -111,7 +112,6 @@ export default function ProcessStack({ steps }: Props) {
         raf = requestAnimationFrame(tick);
         return;
       }
-      // smoothstep
       const progress = t * t * (3 - 2 * t);
       apply(progress);
       raf = requestAnimationFrame(tick);
@@ -126,18 +126,30 @@ export default function ProcessStack({ steps }: Props) {
     <div className="proc-flight-page">
       <header className="proc-flight-intro">
         <SectionHeading
-          kicker="Process"
-          accent="process"
+          accent="about"
           lead={
             <p className="process-lead">
-              Watch the plane fly the route — each stop lights up when it
-              arrives.
+              Watch the plane fly the route — each stop lights when it arrives.
             </p>
           }
         >
-          How I <span className="sec-head-em">build</span>
+          About
         </SectionHeading>
+
+        <aside className="about-bio-glass" aria-label="About Esha">
+          <p className="about-bio-kicker">Esha Sohail</p>
+          <p className="about-bio-text">
+            AI-powered full stack. Sketch to shipped product — clean code, clear
+            interface. AI speeds me up; taste decides what ships.
+          </p>
+          <p className="about-bio-sign">— Esha</p>
+        </aside>
       </header>
+
+      <div className="proc-build-head">
+        <p className="proc-build-kicker">Process</p>
+        <h3 className="proc-build-title">How I Build</h3>
+      </div>
 
       <div
         ref={stageRef}

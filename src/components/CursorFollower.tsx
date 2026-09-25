@@ -32,7 +32,7 @@ export default function CursorFollower() {
     let raf = 0;
     let visible = false;
 
-    const BODY_CHARS = "h1, h2, h3, .hero-mq-name, .section-title, .sec-head-title, .hero-mq-bio";
+    const BODY_CHARS = "h1.hero-mq-name, .hero-mq-name, .hero-mq-bio";
     const INTERACTIVE =
       "a, button, [role='button'], input, textarea, select, label, .framora-link, .btn-hero-primary, .btn-hero-secondary, .framora-cta";
 

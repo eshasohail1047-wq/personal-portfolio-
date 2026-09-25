@@ -24,12 +24,10 @@ export default function ContactForm() {
   };
 
   return (
-    <form onSubmit={onSubmit} className="grid gap-4">
+    <form onSubmit={onSubmit} className="contact-form grid gap-4">
       <div className="grid gap-4 sm:grid-cols-2">
         <label className="grid gap-2 text-sm">
-          <span className="tracking-[0.12em] text-[var(--muted)] uppercase">
-            Name
-          </span>
+          <span className="contact-field-label">Name</span>
           <input
             className="field"
             required
@@ -40,9 +38,7 @@ export default function ContactForm() {
           />
         </label>
         <label className="grid gap-2 text-sm">
-          <span className="tracking-[0.12em] text-[var(--muted)] uppercase">
-            Email
-          </span>
+          <span className="contact-field-label">Email</span>
           <input
             className="field"
             type="email"
@@ -56,9 +52,7 @@ export default function ContactForm() {
       </div>
 
       <label className="grid gap-2 text-sm">
-        <span className="tracking-[0.12em] text-[var(--muted)] uppercase">
-          Project type
-        </span>
+        <span className="contact-field-label">Project type</span>
         <select
           className="field"
           value={kind}
@@ -73,9 +67,7 @@ export default function ContactForm() {
       </label>
 
       <label className="grid gap-2 text-sm">
-        <span className="tracking-[0.12em] text-[var(--muted)] uppercase">
-          Message
-        </span>
+        <span className="contact-field-label">Message</span>
         <textarea
           className="field min-h-32 resize-y"
           required
@@ -85,7 +77,7 @@ export default function ContactForm() {
         />
       </label>
 
-      <button type="submit" className="btn-grad w-fit">
+      <button type="submit" className="btn-grad contact-submit w-fit">
         Send via WhatsApp
       </button>
     </form>

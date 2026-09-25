@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, type CSSProperties } from "react";
-import Reveal from "@/components/Reveal";
 import SectionHeading from "@/components/SectionHeading";
 
 const SKILLS = [
@@ -151,20 +150,18 @@ export default function SkillsSection() {
   return (
     <section id="skills" className="section-pad section-skills">
       <div className="section-inner">
-        <Reveal>
-          <SectionHeading
-            kicker="Stack"
-            accent="skills"
-            lead={
-              <p className="skills-lead">
-                A floating constellation of tools I reach for when an idea needs
-                to ship.
-              </p>
-            }
-          >
-            My <span className="sec-head-em">Skills</span>
-          </SectionHeading>
-        </Reveal>
+        <SectionHeading
+          kicker="Stack"
+          accent="skills"
+          lead={
+            <p className="skills-lead">
+              A floating constellation of tools I reach for when an idea needs
+              to ship.
+            </p>
+          }
+        >
+          My Skills
+        </SectionHeading>
 
         <div ref={fieldRef} className="skills-orbit" aria-label="Skills constellation">
           <div className="skills-orbit-core" aria-hidden="true">

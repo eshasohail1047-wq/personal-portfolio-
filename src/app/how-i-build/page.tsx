@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 
-/** Legacy URL — How I Build lives on home after About. */
+/** Legacy URL — About (process flight) lives on home. */
 export default function HowIBuildPage() {
-  redirect("/#how-i-build");
+  redirect("/#about");
 }

@@ -1,11 +1,10 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import AboutTechStack from "@/components/AboutTechStack";
 import ContactForm from "@/components/ContactForm";
 import CursorFollower from "@/components/CursorFollower";
 import FaqStack from "@/components/FaqStack";
-import FloatingNav from "@/components/FloatingNav";
+import FloatingNav, { NAV_LINKS } from "@/components/FloatingNav";
 import GradientBlobs from "@/components/GradientBlobs";
 import HelloIntro from "@/components/HelloIntro";
 import HeroAtmosphere from "@/components/HeroAtmosphere";
@@ -13,7 +12,6 @@ import ProcessStack, { type ProcessStep } from "@/components/ProcessStack";
 import Reveal from "@/components/Reveal";
 import SectionHeading from "@/components/SectionHeading";
 import ServicesStack from "@/components/ServicesStack";
-import SkillsSection from "@/components/SkillsSection";
 import TestimonialsMarquee from "@/components/TestimonialsMarquee";
 
 const WHATSAPP =
@@ -30,20 +28,28 @@ const HERO_TICKER = [
 
 const SERVICES = [
   {
-    title: "Full Stack Apps",
-    body: "From UI to database — maps, planners, and product features that work in the browser.",
+    title: "Full-stack Development",
+    tag: "Full Stack",
+    body: "Complete web applications with a smooth frontend, backend, and database.",
+    techs: ["Next.js", "PHP", "MySQL"],
   },
   {
-    title: "Frontend UI",
-    body: "Responsive layouts, sharp interactions, and interfaces that stay readable on any screen.",
+    title: "Frontend & UI",
+    tag: "Frontend",
+    body: "Clean, responsive interfaces with sharp interactions and purposeful motion.",
+    techs: ["React", "Next.js", "UI"],
   },
   {
-    title: "Backend & Data",
-    body: "PHP, MySQL, and structured logic so your product remembers users and stays reliable.",
+    title: "Backend & Database",
+    tag: "Backend",
+    body: "Structured APIs, authentication, data that stays, and reliable application logic.",
+    techs: ["PHP", "MySQL", "APIs"],
   },
   {
-    title: "Games & Interactive",
-    body: "Godot and C# builds when the idea needs motion, tension, and real-time feedback.",
+    title: "Interactive Experiences",
+    tag: "Interactive",
+    body: "Engaging interactive builds with animation, game logic, and real-time feedback.",
+    techs: ["Godot", "C#", "Interaction"],
   },
 ] as const;
 
@@ -157,6 +163,8 @@ const FAQS = [
 export default function HomePage() {
   const [ready, setReady] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const closeMenu = useCallback(() => setMenuOpen(false), []);
+  const toggleMenu = useCallback(() => setMenuOpen((v) => !v), []);
   const [filter, setFilter] = useState<"All" | ProjectKind>("All");
 
   useEffect(() => {
@@ -180,8 +188,8 @@ export default function HomePage() {
 
       <FloatingNav
         menuOpen={menuOpen}
-        onMenuToggle={() => setMenuOpen((v) => !v)}
-        onMenuClose={() => setMenuOpen(false)}
+        onMenuToggle={toggleMenu}
+        onMenuClose={closeMenu}
       />
 
       <main className="relative z-10">
@@ -229,56 +237,27 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* ABOUT — intro + tech stack gather */}
-        <section id="about" className="section-pad section-about">
-          <div className="section-inner about-grid">
-            <Reveal>
-              <SectionHeading kicker="About" accent="about">
-                Not a skill list.{" "}
-                <span className="sec-head-em">A person who arrives.</span>
-              </SectionHeading>
-              <div className="about-copy">
-                <p>
-                  I’m Esha — an AI-powered full stack developer. I like work that
-                  starts as a sketch and ends as a product someone can actually
-                  open.
-                </p>
-                <p>
-                  I care about clean code and a clear interface. AI helps me move
-                  faster; taste decides what ships.
-                </p>
-                <p className="about-sign">— Esha</p>
-              </div>
-            </Reveal>
-            <Reveal delay={80}>
-              <AboutTechStack />
-            </Reveal>
-          </div>
-        </section>
-
-        {/* HOW I BUILD — same canvas as home, right after About */}
-        <section id="how-i-build" className="section-pad section-process">
+        {/* ABOUT — process flight + short bio glass (former How I Build) */}
+        <section id="about" className="section-pad section-process">
           <div className="section-inner process-wrap">
             <ProcessStack steps={BUILD_STEPS} />
           </div>
         </section>
 
-        {/* SERVICES — sticky stacking cards (reel / achievements style) */}
+        {/* SERVICES — sticky stacking cards */}
         <section id="services" className="section-pad section-services">
           <div className="section-inner services-wrap">
-            <Reveal>
-              <SectionHeading
-                kicker="Services"
-                accent="services"
-                lead={
-                  <p className="services-lead">
-                    Scroll — each card stacks on the one before it.
-                  </p>
-                }
-              >
-                What I <span className="sec-head-em">build</span>
-              </SectionHeading>
-            </Reveal>
+            <SectionHeading
+              className="services-head"
+              accent="services"
+              lead={
+                <p className="services-lead">
+                  Scroll — each card locks into the row, left to right.
+                </p>
+              }
+            >
+              Our Services
+            </SectionHeading>
             <ServicesStack services={SERVICES} />
           </div>
         </section>
@@ -286,11 +265,9 @@ export default function HomePage() {
         {/* PROJECTS */}
         <section id="projects" className="section-pad">
           <div className="section-inner">
-            <Reveal>
-              <SectionHeading kicker="Work" accent="projects">
-                Recent <span className="sec-head-em">Projects</span>
-              </SectionHeading>
-            </Reveal>
+            <SectionHeading kicker="Work" accent="projects">
+              Recent Projects
+            </SectionHeading>
 
             <div className="filter-row">
               {(["All", "Web Application", "Game"] as const).map((chip) => (
@@ -381,21 +358,17 @@ export default function HomePage() {
           </div>
         </section>
 
-        <SkillsSection />
-
         {/* TESTIMONIALS */}
         <section id="testimonials" className="section-pad">
           <div className="section-inner">
-            <Reveal>
-              <SectionHeading kicker="Voices" accent="testimonials">
-                What people <span className="sec-head-em">say</span>
-              </SectionHeading>
-            </Reveal>
+            <SectionHeading kicker="Voices" accent="testimonials">
+              What people <span className="sec-head-em">say</span>
+            </SectionHeading>
             <TestimonialsMarquee />
           </div>
         </section>
 
-        {/* FAQ — exact reference: left copy + right 3D fan deck */}
+        {/* FAQ — sticky stacking questions */}
         <section id="faq" className="section-pad section-faq">
           <div className="section-inner faq-wrap">
             <FaqStack faqs={FAQS} />
@@ -404,8 +377,12 @@ export default function HomePage() {
 
         {/* CONTACT */}
         <section id="contact" className="section-pad section-contact">
+          <div className="contact-ambient" aria-hidden="true">
+            <span className="contact-ambient-orb contact-ambient-orb--a" />
+            <span className="contact-ambient-orb contact-ambient-orb--b" />
+          </div>
           <div className="section-inner contact-grid">
-            <Reveal>
+            <Reveal className="contact-copy">
               <SectionHeading
                 kicker="Contact"
                 accent="contact"
@@ -416,8 +393,7 @@ export default function HomePage() {
                   </p>
                 }
               >
-                Have a project{" "}
-                <span className="sec-head-em">in mind?</span>
+                Have a project in mind
               </SectionHeading>
               <div className="contact-links">
                 <a href="mailto:eshasohail1047@gmail.com">
@@ -435,8 +411,9 @@ export default function HomePage() {
                 </a>
               </div>
             </Reveal>
-            <Reveal delay={100}>
+            <Reveal delay={120} className="contact-panel">
               <div className="contact-card">
+                <div className="contact-card-glow" aria-hidden="true" />
                 <h3 className="contact-card-title">Request a proposal</h3>
                 <ContactForm />
               </div>
@@ -448,7 +425,7 @@ export default function HomePage() {
         <footer className="site-footer">
           <div className="footer-inner">
             <div className="footer-top">
-              <div>
+              <div className="footer-brand-block">
                 <p className="footer-brand">
                   <span className="site-brand-mark" aria-hidden="true">
                     ✦
@@ -456,15 +433,28 @@ export default function HomePage() {
                   Esha Sohail
                 </p>
                 <p className="footer-tag">
-                  AI-powered full stack developer. Clean code. Clear interface.
+                  AI-powered full stack developer. Clean code. Clear
+                  interface. Building products that ship fast and feel
+                  considered.
                 </p>
               </div>
               <div className="footer-cols">
+                <nav aria-label="Footer">
+                  <p className="footer-col-label">Navigate</p>
+                  {NAV_LINKS.map((link) => (
+                    <a key={link.id} href={link.href}>
+                      {link.label}
+                    </a>
+                  ))}
+                  <a href="/#contact">Contact</a>
+                </nav>
                 <div>
                   <p className="footer-col-label">Contact</p>
-                  <a href="mailto:eshasohail1047@gmail.com">Email</a>
+                  <a href="mailto:eshasohail1047@gmail.com">
+                    eshasohail1047@gmail.com
+                  </a>
                   <a href={WHATSAPP} target="_blank" rel="noreferrer">
-                    WhatsApp
+                    WhatsApp +92 370 7133664
                   </a>
                 </div>
                 <div>
@@ -482,7 +472,14 @@ export default function HomePage() {
             <p className="footer-giant" aria-hidden="true">
               ESHA
             </p>
-            <p className="footer-copy">© 2026 Esha Sohail</p>
+            <div className="footer-bottom">
+              <p className="footer-copy">
+                © {new Date().getFullYear()} Esha Sohail. All rights reserved.
+              </p>
+              <a href="/#top" className="footer-top-link">
+                Back to top
+              </a>
+            </div>
           </div>
         </footer>
       </main>
