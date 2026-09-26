@@ -89,35 +89,55 @@ export default function FloatingNav({
         <div className="framora-nav-inner">
           <a href="/#top" className="framora-logo" onClick={onMenuClose}>
             <span className="framora-logo-mark" aria-hidden="true">
-              <svg viewBox="0 0 40 40" className="framora-logo-svg" fill="none">
-                <rect
-                  x="2"
-                  y="2"
-                  width="36"
-                  height="36"
-                  rx="11"
-                  fill="url(#esFill)"
-                />
-                <text
-                  x="20"
-                  y="26.5"
-                  textAnchor="middle"
-                  fill="#1a0a14"
-                  fontFamily="Georgia, serif"
-                  fontStyle="italic"
-                  fontWeight="700"
-                  fontSize="15"
-                  letterSpacing="-0.5"
-                >
-                  ES
-                </text>
+              <svg
+                viewBox="0 0 40 40"
+                className="framora-logo-svg"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
                 <defs>
-                  <linearGradient id="esFill" x1="4" y1="4" x2="36" y2="36">
-                    <stop stopColor="#fdba74" />
-                    <stop offset="0.55" stopColor="#e879f9" />
-                    <stop offset="1" stopColor="#a855f7" />
+                  <linearGradient
+                    id="esRing"
+                    x1="4"
+                    y1="6"
+                    x2="36"
+                    y2="34"
+                    gradientUnits="userSpaceOnUse"
+                  >
+                    <stop stopColor="#c084fc" />
+                    <stop offset="0.5" stopColor="#e879f9" />
+                    <stop offset="1" stopColor="#fb923c" />
+                  </linearGradient>
+                  <linearGradient
+                    id="esGlyph"
+                    x1="12"
+                    y1="10"
+                    x2="28"
+                    y2="30"
+                    gradientUnits="userSpaceOnUse"
+                  >
+                    <stop stopColor="#f5f3ff" />
+                    <stop offset="1" stopColor="#e9d5ff" />
                   </linearGradient>
                 </defs>
+                <circle
+                  cx="20"
+                  cy="20"
+                  r="15.5"
+                  stroke="url(#esRing)"
+                  strokeWidth="1.6"
+                  opacity="0.95"
+                />
+                <circle
+                  cx="20"
+                  cy="20"
+                  r="11.25"
+                  fill="rgba(192,132,252,0.12)"
+                />
+                <path
+                  d="M14.2 12.4h11.2c.55 0 1 .45 1 1v1.15c0 .55-.45 1-1 1H17.1v3.05h6.6c.55 0 1 .45 1 1v1.1c0 .55-.45 1-1 1h-6.6v3.15h8.3c.55 0 1 .45 1 1V27.1c0 .55-.45 1-1 1H14.2c-.55 0-1-.45-1-1V13.4c0-.55.45-1 1-1Z"
+                  fill="url(#esGlyph)"
+                />
               </svg>
             </span>
             <span className="framora-logo-text">Esha</span>

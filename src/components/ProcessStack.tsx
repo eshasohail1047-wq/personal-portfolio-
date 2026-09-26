@@ -139,8 +139,8 @@ export default function ProcessStack({ steps }: Props) {
         <aside className="about-bio-glass" aria-label="About Esha">
           <p className="about-bio-kicker">Esha Sohail</p>
           <p className="about-bio-text">
-            AI-powered full stack. Sketch to shipped product — clean code, clear
-            interface. AI speeds me up; taste decides what ships.
+            AI-Powered Full Stack Developer. Sketch to shipped product — clean
+            code, clear interface. AI speeds me up; taste decides what ships.
           </p>
           <p className="about-bio-sign">— Esha</p>
         </aside>

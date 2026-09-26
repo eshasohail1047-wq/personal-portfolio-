@@ -199,10 +199,7 @@ export default function HomePage() {
 
           <div className="hero-mq-body">
             <div className="hero-mq-copy">
-              <p className="hero-mq-tag">
-                SOFTWARE ENGINEER{" "}
-                <span className="hero-mq-tag-x">×</span> CREATIVE THINKER
-              </p>
+              <p className="hero-mq-tag">AI-Powered Full Stack Developer</p>
               <h1 className="hero-mq-name">
                 Esha <span>Sohail</span>
               </h1>
@@ -433,7 +430,7 @@ export default function HomePage() {
                   Esha Sohail
                 </p>
                 <p className="footer-tag">
-                  AI-powered full stack developer. Clean code. Clear
+                  AI-Powered Full Stack Developer. Clean code. Clear
                   interface. Building products that ship fast and feel
                   considered.
                 </p>
